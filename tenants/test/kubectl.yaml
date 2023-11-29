@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubectl
+  namespace: test-home
+spec:
+  containers:
+  - image: quay.io/clastix/kubectl:v1.28.2
+    command:
+    - sleep
+    - infinity
+    name: kubectl
+    volumeMounts:
+    - mountPath: /tmp/tenant
+      name: tenant-kubeconfig
+    env:
+    - name: KUBECONFIG
+      value: /tmp/tenant/kubeconfig
+  volumes:
+  - name: tenant-kubeconfig
+    secret:
+      secretName: gitops-reconciler-kubeconfig
